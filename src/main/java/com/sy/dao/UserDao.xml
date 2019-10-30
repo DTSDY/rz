@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.sy.dao.UserDao">
+    <insert id="addUser">
+        insert
+        into sys_user(username,password,email,mobile,status,create_user_id,create_time,dept_id,sex,lockdate,salt)
+        values (#{username},#{password},#{email},#{mobile},#{status},#{createUserId},#{createTime},#{deptId},#{sex},#{lockdate},#{salt})
+    </insert>
+
+    <select id="findUserByUsername" resultType="com.sy.pojo.User">
+        select * from sys_user
+        where username = #{username}
+    </select>
+    <select id="findAllUser" resultType="com.sy.pojo.User">
+        select user_id,username,password,email,mobile,status,create_user_id ,create_time,sex,lockdate
+        from sys_user order by user_id ${order}
+    </select>
+</mapper>

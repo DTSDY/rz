@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.sy.dao.MenuDao">
+
+    <select id="findFatherMenuByUsername" resultType="com.sy.VO.MenuVo">
+        select DISTINCT m.menu_id,m.parent_id,m.name,m.url,m.perms,m.type,m.icon,m.order_num
+        from sys_menu m
+        JOIN sys_role_menu rm ON m.menu_id = rm.menu_id
+        JOIN sys_role r ON r.role_id = rm.role_id
+        JOIN sys_user_role ur on r.role_id = ur.role_id
+        JOIN sys_user u ON ur.user_id = u.user_id
+        WHERE u.username =#{username} and m.parent_id = 0
+    </select>
+    <select id="findMenusByFatherID" resultType="com.sy.pojo.Menu">
+        select * from sys_menu where parent_id = #{id}
+    </select>
+    <select id="findPermsByUsername" resultType="java.lang.String">
+        select DISTINCT m.perms
+        from sys_menu m
+        JOIN sys_role_menu rm ON m.menu_id = rm.menu_id
+        JOIN sys_role r ON r.role_id = rm.role_id
+        JOIN sys_user_role ur on r.role_id = ur.role_id
+        JOIN sys_user u ON ur.user_id = u.user_id
+        WHERE u.username =#{username}
+    </select>
+</mapper>

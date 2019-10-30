@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--    spring工厂启动时 需要的配置-->
+
+    <!--    1 连接池以及导入配置文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+
+    <bean id="druid" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="username" value="${jdbc.user}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+
+    <!--    2 sqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--        连接池  mapper文件注册 别名  插件 额外参数设置-->
+        <property name="dataSource" ref="druid"></property>
+        <!--        如果mapper和到 在同一文件 可以省略-->
+<!--        <property name="mapperLocations" ></property>-->
+        <property name="typeAliasesPackage" value="com.sy.pojo"></property>
+        <!--    插件  mybatis 中的插件 配置方式基本不变-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>reasonable=true</value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+        <!--驼峰-->
+        <property name="configuration" ref="settings"></property>
+    </bean>
+
+    <!-- mybatis配置驼峰形式的设置类 -->
+    <bean id="settings" class="org.apache.ibatis.session.Configuration">
+        <property name="mapUnderscoreToCamelCase" value="true"></property>
+    </bean>
+
+    <!--    3 mapperScannerConfigurer-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--        dao接口的位置  sqlSessionFactory -->
+        <property name="basePackage" value="com.sy.dao"></property>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+
+    <!--    4 注解扫描-->
+    <context:component-scan base-package="com.sy">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--    5 事务管理器-->
+    <bean id="tx" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="druid"></property>
+    </bean>
+    <!--    支持注解实现事务 @Transactional-->
+    <tx:annotation-driven transaction-manager="tx"></tx:annotation-driven>
+
+    <!--    6 连接其他配置文件-->
+    <import resource="applicationContext_shiro.xml"></import>
+<!--    <import resource="applicationContext_redis.xml"></import>-->
+
+</beans>

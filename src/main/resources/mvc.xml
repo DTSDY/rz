@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context.xsd
+							http://www.springframework.org/schema/mvc
+							http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                            http://www.springframework.org/schema/aop
+							http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--    springMVC启动时工厂的配置文件 -->
+
+    <!--    1 springMVC注解的扫描 @controller-->
+    <context:component-scan base-package="com.sy" use-default-filters="false">
+        <!--        只扫描 注解为@Controller注解的类 -->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--    2 注册注解开发驱动 如添加 fastjson-->
+    <mvc:annotation-driven>
+
+    </mvc:annotation-driven>
+
+    <!--    3 视图解析器 IRVR-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--        前缀和后缀-->
+        <property name="prefix" value="/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!--    4 解决访问静态资源的问题-->
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+
+    <!--    5 shiro 属于web层 在mvc工厂中需要声明 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+    <!--    当前工厂中 多创建一个bean 动态代理生产的后置处理器 -->
+    <aop:config></aop:config>
+    <!--    初始化一些 额外功能 和 切入点-->
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"></property>
+    </bean>
+
+    <!--    6 额外 添加的功能 如 异常捕获器 上传解析器-->
+<!--    <bean class="com.sy.utils.MyExpectionResolver"></bean>-->
+
+    <!--上传解析器-->
+<!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>-->
+</beans>
