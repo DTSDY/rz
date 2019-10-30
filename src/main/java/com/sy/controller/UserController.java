@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sy.VO.MenuVo;
 import com.sy.VO.UserVo;
+import com.sy.VO.UserVo2;
 import com.sy.pojo.Role;
 import com.sy.pojo.User;
 import com.sy.service.MenuService;
@@ -16,13 +17,10 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -118,31 +116,41 @@ public class UserController {
 
     @RequestMapping("/user/save")
     @ResponseBody
-    public R userList(@RequestBody User user, @RequestBody ArrayList<Integer> roles) {
-        System.out.println(user.toString());
-        System.out.println(roles.toString());
+    public R userList( @RequestBody UserVo2 user) {
+//        System.out.println(roles.toString());
+//        System.out.println(user.toString());
+        String addUsername = (String) SecurityUtils.getSubject().getPrincipal();
+        User adduser = userService.findUserByUsername(addUsername);
         String salt = UUID.randomUUID().toString();
         String newPass = new Sha256Hash(user.getPassword(), salt, 10000).toBase64();
         user.setPassword(newPass);
-        user.setSalt(salt);
-        Integer integer = userService.addUser(user);
-//        Integer integer1 = userRoleService.addUserRole(user.getUserId(), roles);
-        for (Integer role : roles) {
-            Integer integer1 = userRoleService.addUserRole(user.getUserId(), role);
-            if (integer1 != 1) {
-                integer = 0;
+        Integer user_num = userService.addUser(new User(null, user.getUsername(), user.getPassword(), user.getEmail(), user.getMobile(), user.getStatus(), adduser.getUserId(), new Date(), null, user.getSex(), null, salt));
+        User nowUser = userService.findUserByUsername(user.getUsername());
+        for (Integer role : user.getRoles()) {
+            Integer role_num = userRoleService.addUserRole(nowUser.getUserId(), role);
+            if (role_num==0){
+                user_num=0;
             }
         }
-//        for (int i = 0; i < Array.getLength(roles); i++) {
-//            Integer integer1 = userRoleService.addUserRole(user.getUserId(), );
-//            if (integer1 != 1) {
-//                integer = 0;
-//            }
-//        }
-        if (integer == 1) {
-            return R.ok();
-        } else {
+        if (user_num==0){
             return R.error("发生异常错误！");
         }
+        return R.ok();
     }
+
+    @RequestMapping("/user/info/{userId}")
+    @ResponseBody
+    public R queryByUserId(@PathVariable Integer userId){
+        UserVo2 user = userService.findUserByUserId(userId);
+        return R.ok().put("user", user);
+    }
+
+    @RequestMapping("/user/update")
+    @ResponseBody
+    public R updateUser(@RequestBody UserVo2 user){
+//        UserVo2 user = userService.findUserByUserId(userId);
+        System.out.println(user.toString());
+        return R.ok();
+    }
+
 }

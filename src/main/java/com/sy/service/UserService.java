@@ -1,7 +1,7 @@
 package com.sy.service;
 
+import com.sy.VO.UserVo2;
 import com.sy.pojo.User;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ import java.util.List;
 public interface UserService {
     Integer addUser(User user);
     User findUserByUsername(String username);
-    List<User> findAllUser(@Param("order")String order);
+    List<User> findAllUser(String order);
+    UserVo2 findUserByUserId(Integer userId);
+
 
 }

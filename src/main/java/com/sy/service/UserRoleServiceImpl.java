@@ -4,6 +4,8 @@ import com.sy.dao.UserRoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 /**
  * ssssyy
  * 2019/10/29 11:05
@@ -17,5 +19,10 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public Integer addUserRole(Integer uid, Integer rid) {
         return userRoleDao.addUserRole(uid, rid);
+    }
+
+    @Override
+    public ArrayList<Integer> findRolesByUserId(Integer userId) {
+        return userRoleDao.findRolesByUserId(userId);
     }
 }

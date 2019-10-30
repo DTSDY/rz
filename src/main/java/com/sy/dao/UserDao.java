@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface UserDao {
     Integer addUser(User user);
-
+    User findUserByUserId(@Param("userId")Integer userId);
     User findUserByUsername(@Param("username")String username);
     List<User> findAllUser(@Param("order")String order);
 }

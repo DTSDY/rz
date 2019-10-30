@@ -18,4 +18,9 @@
         select user_id,username,password,email,mobile,status,create_user_id ,create_time,sex,lockdate
         from sys_user order by user_id ${order}
     </select>
+    <select id="findUserByUserId" resultType="com.sy.pojo.User">
+        select *
+        from sys_user
+        where user_id = #{userId}
+    </select>
 </mapper>
