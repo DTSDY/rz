@@ -16,4 +16,6 @@ public interface MenuDao {
     List<String> findPermsByUsername(@Param("username")String username);
 
     List<MenuVo> findFirstMenu();
+
+    List<Menu> findAllMenu(@Param("order") String order);
 }

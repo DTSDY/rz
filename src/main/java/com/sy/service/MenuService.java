@@ -16,5 +16,7 @@ public interface MenuService {
     List<Menu> findMenusByFatherID(@Param("id") Integer id);
     List<String> findPermsByUsername(String username);
     List<MenuVo> findFirstMenu();
+    List<Menu> findAllMenu(String order);
+
 
 }

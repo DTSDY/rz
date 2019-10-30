@@ -29,4 +29,7 @@
     <select id="findFirstMenu" resultType="com.sy.VO.MenuVo">
         select * from sys_menu
     </select>
+    <select id="findAllMenu" resultType="com.sy.pojo.Menu">
+        select * from sys_menu order by menu_id ${order}
+    </select>
 </mapper>

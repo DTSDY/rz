@@ -43,4 +43,9 @@ public class MenuServiceImpl implements MenuService {
         return menuDao.findFirstMenu();
     }
 
+    @Override
+    public List<Menu> findAllMenu(String order) {
+        return menuDao.findAllMenu(order);
+    }
+
 }
