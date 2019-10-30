@@ -147,9 +147,14 @@ public class UserController {
 
     @RequestMapping("/user/update")
     @ResponseBody
-    public R updateUser(@RequestBody UserVo2 user){
+    public R updateUser(@RequestBody UserVo2 user) {
 //        UserVo2 user = userService.findUserByUserId(userId);
-        System.out.println(user.toString());
+//        System.out.println(user.toString());
+        userRoleService.deleteUserRole(user.getUserId());
+        userService.updateUser(new User(user.getUserId(), user.getUsername(),null, user.getEmail(), user.getMobile(), user.getStatus(), null, null, null, user.getSex(), null, null));
+        for (Integer role : user.getRoles()) {
+            userRoleService.addUserRole(user.getUserId(), role);
+        }
         return R.ok();
     }
 

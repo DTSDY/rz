@@ -9,6 +9,10 @@
         into sys_user(username,password,email,mobile,status,create_user_id,create_time,dept_id,sex,lockdate,salt)
         values (#{username},#{password},#{email},#{mobile},#{status},#{createUserId},#{createTime},#{deptId},#{sex},#{lockdate},#{salt})
     </insert>
+    <update id="updateUser">
+        update sys_user set username=#{username},email=#{email},mobile=#{mobile},status=#{status},sex=#{sex}
+        where user_id = #{userId}
+    </update>
 
     <select id="findUserByUsername" resultType="com.sy.pojo.User">
         select * from sys_user

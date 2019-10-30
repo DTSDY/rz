@@ -11,4 +11,5 @@ import java.util.ArrayList;
 public interface UserRoleDao {
     Integer addUserRole(@Param("uid") Integer uid,@Param("rid") Integer rid);
     ArrayList<Integer> findRolesByUserId(@Param("userId")Integer userId);
+    Integer deleteUserRole(@Param("userId")Integer userId);
 }

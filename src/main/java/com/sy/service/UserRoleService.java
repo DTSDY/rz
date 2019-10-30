@@ -1,5 +1,7 @@
 package com.sy.service;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.ArrayList;
 
 /**
@@ -9,5 +11,7 @@ import java.util.ArrayList;
 public interface UserRoleService {
     Integer addUserRole(Integer uid,Integer rid);
     ArrayList<Integer> findRolesByUserId(Integer userId);
+    Integer deleteUserRole(@Param("userId")Integer userId);
+
 
 }

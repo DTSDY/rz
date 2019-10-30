@@ -14,4 +14,5 @@ public interface UserDao {
     User findUserByUserId(@Param("userId")Integer userId);
     User findUserByUsername(@Param("username")String username);
     List<User> findAllUser(@Param("order")String order);
+    Integer updateUser(User user);
 }

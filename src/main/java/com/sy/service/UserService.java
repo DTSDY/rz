@@ -14,6 +14,6 @@ public interface UserService {
     User findUserByUsername(String username);
     List<User> findAllUser(String order);
     UserVo2 findUserByUserId(Integer userId);
-
+    Integer updateUser(User user);
 
 }

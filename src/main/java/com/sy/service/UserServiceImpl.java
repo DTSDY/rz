@@ -43,8 +43,14 @@ public class UserServiceImpl implements UserService {
         UserVo2 userVo2 = new UserVo2(user.getUserId(),user.getUsername(),null,user.getEmail(),user.getMobile(),user.getStatus(),user.getSex(),null);
         ArrayList<Integer> roles = userRoleDao.findRolesByUserId(user.getUserId());
         userVo2.setRoles(roles);
-        System.out.println(userVo2);
+//        System.out.println(userVo2);
+
         return userVo2;
 
+    }
+
+    @Override
+    public Integer updateUser(User user) {
+        return userDao.updateUser(user);
     }
 }
