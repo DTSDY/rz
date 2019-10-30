@@ -15,5 +15,5 @@ public interface UserService {
     List<User> findAllUser(String order);
     UserVo2 findUserByUserId(Integer userId);
     Integer updateUser(User user);
-
+    Integer deleteUser(Integer userId);
 }

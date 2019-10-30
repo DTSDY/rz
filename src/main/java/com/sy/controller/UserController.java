@@ -158,4 +158,12 @@ public class UserController {
         return R.ok();
     }
 
+    @RequestMapping("/user/del/{userId}")
+    @ResponseBody
+    public R deleteUser(@PathVariable Integer userId){
+        userService.deleteUser(userId);
+        userRoleService.deleteUserRole(userId);
+        return R.ok();
+    }
+
 }
