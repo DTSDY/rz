@@ -38,4 +38,9 @@ public class MenuServiceImpl implements MenuService {
         return menuDao.findPermsByUsername(username);
     }
 
+    @Override
+    public List<MenuVo> findFirstMenu() {
+        return menuDao.findFirstMenu();
+    }
+
 }

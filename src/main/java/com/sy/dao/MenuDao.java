@@ -14,4 +14,6 @@ public interface MenuDao {
     List<MenuVo> findFatherMenuByUsername(@Param("username") String username);
     List<Menu> findMenusByFatherID(@Param("id") Integer id);
     List<String> findPermsByUsername(@Param("username")String username);
+
+    List<MenuVo> findFirstMenu();
 }

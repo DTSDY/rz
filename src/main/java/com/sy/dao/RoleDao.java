@@ -1,6 +1,7 @@
 package com.sy.dao;
 
 import com.sy.pojo.Role;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ import java.util.List;
  */
 public interface RoleDao {
     List<Role> findAllRole();
+    List<Role> findAllRoles(@Param("order") String order);
 }

@@ -26,4 +26,7 @@
         JOIN sys_user u ON ur.user_id = u.user_id
         WHERE u.username =#{username}
     </select>
+    <select id="findFirstMenu" resultType="com.sy.VO.MenuVo">
+        select * from sys_menu
+    </select>
 </mapper>

@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface RoleService {
     List<Role> findAllRole();
+    List<Role> findAllRoles(String order);
+
 }

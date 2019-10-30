@@ -9,4 +9,7 @@
         select *
         from sys_role
     </select>
+    <select id="findAllRoles" resultType="com.sy.pojo.Role">
+        select * from sys_role order by role_id ${order}
+    </select>
 </mapper>
