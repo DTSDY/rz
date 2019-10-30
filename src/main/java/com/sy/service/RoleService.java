@@ -1,5 +1,6 @@
 package com.sy.service;
 
+import com.sy.VO.RoleVo;
 import com.sy.pojo.Role;
 
 import java.util.List;
@@ -11,5 +12,9 @@ import java.util.List;
 public interface RoleService {
     List<Role> findAllRole();
     List<Role> findAllRoles(String order);
-
+    Role findRoleByRoleName(String roleName);
+    Integer addRole(Role role);
+    RoleVo findRoleByRoleId(Integer roleId);
+    Integer updateRole(Role role);
+    Integer deleteRole(Integer roleId);
 }

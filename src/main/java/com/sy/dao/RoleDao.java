@@ -12,4 +12,10 @@ import java.util.List;
 public interface RoleDao {
     List<Role> findAllRole();
     List<Role> findAllRoles(@Param("order") String order);
+    Role findRoleByRoleName(@Param("roleName")String roleName);
+    Integer addRole(Role role);
+
+    Role findRoleByRoleId(@Param("roleId")Integer roleId);
+    Integer updateRole(Role role);
+    Integer deleteRole(Integer roleId);
 }

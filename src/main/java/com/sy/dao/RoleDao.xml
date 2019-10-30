@@ -4,6 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace：命名空间，用于隔离sql-->
 <mapper namespace="com.sy.dao.RoleDao">
+    <insert id="addRole">
+        insert into
+        sys_role (role_id,role_name,remark,create_user_id,create_time)
+        values (null,#{roleName},#{remark},#{createUserId},#{createTime})
+    </insert>
+    <update id="updateRole">
+        update sys_role
+        set role_name=#{roleName},remark=#{remark}
+        where role_id = #{roleId}
+    </update>
+    <delete id="deleteRole">
+        delete from sys_role where role_id = #{roleId}
+    </delete>
 
     <select id="findAllRole" resultType="com.sy.pojo.Role">
         select *
@@ -11,5 +24,11 @@
     </select>
     <select id="findAllRoles" resultType="com.sy.pojo.Role">
         select * from sys_role order by role_id ${order}
+    </select>
+    <select id="findRoleByRoleName" resultType="com.sy.pojo.Role">
+        select * from sys_role where role_name = #{roleName}
+    </select>
+    <select id="findRoleByRoleId" resultType="com.sy.pojo.Role">
+        select * from sys_role where role_id = #{roleId}
     </select>
 </mapper>
